@@ -16,7 +16,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <CloudIcon className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-gray-900">K&Co. Cloud Spend Viewer</h1>
+              <h1 className="text-gray-900">Cloud Spend Viewer</h1>
               <p className="text-gray-500">Monitor and analyze cloud cost</p>
             </div>
           </div>
