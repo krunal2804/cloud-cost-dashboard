@@ -1,0 +1,13 @@
+usage_date,service,team,environment,cost
+01/10/2023,BigQuery,Core,prod,81.27
+02/18/2023,Cloud Storage,Core,dev,19.73
+03/06/2023,Cloud Run,Platform,dev,17.14
+04/15/2023,Compute Engine,Platform,staging,98.06
+05/27/2023,BigQuery,Growth,prod,62.84
+06/12/2023,Cloud SQL,Core,staging,74.53
+07/03/2023,Cloud Storage,Growth,dev,15.22
+08/19/2023,Compute Engine,Core,prod,117.49
+09/08/2023,Cloud Run,Platform,dev,20.16
+10/14/2023,BigQuery,Growth,prod,69.41
+11/05/2023,Cloud SQL,Platform,staging,82.37
+12/21/2023,Compute Engine,Core,prod,127.88

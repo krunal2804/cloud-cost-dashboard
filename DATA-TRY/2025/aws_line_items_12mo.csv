@@ -1,0 +1,14 @@
+date,service,team,env,cost_usd
+2024-01-05,EC2,Core,prod,142.35
+2024-01-05,S3,Core,prod,28.14
+2024-02-11,RDS,Platform,staging,96.40
+2024-03-16,Lambda,Platform,dev,21.67
+2024-04-09,CloudFront,Growth,prod,64.11
+2024-05-14,EC2,Growth,staging,83.72
+2024-06-08,S3,Core,dev,19.52
+2024-07-20,RDS,Platform,prod,118.94
+2024-08-12,Lambda,Growth,dev,17.30
+2024-09-07,EC2,Core,prod,151.26
+2024-10-18,S3,Platform,staging,26.05
+2024-11-23,CloudFront,Growth,prod,71.48
+2024-12-10,RDS,Core,prod,129.83

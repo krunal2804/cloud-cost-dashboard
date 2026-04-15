@@ -3,7 +3,57 @@ import { SpendRecord, SummaryData, Filters } from '../types/spend';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
-export function useSpendData(filters: Filters) {
+function normalizeSpendRecord(
+  record: Partial<SpendRecord> & Record<string, unknown>,
+  index: number,
+): SpendRecord {
+  const dateValue =
+    typeof record.date === 'string' && record.date.trim()
+      ? record.date
+      : '1970-01-01';
+
+  const cloudProvider =
+    typeof record.cloud_provider === 'string' && record.cloud_provider.trim()
+      ? record.cloud_provider
+      : 'Unknown';
+
+  const service =
+    typeof record.service === 'string' && record.service.trim()
+      ? record.service
+      : 'Unknown';
+
+  const team =
+    typeof record.team === 'string' && record.team.trim()
+      ? record.team
+      : 'Unknown';
+
+  const envSource =
+    typeof record.env === 'string'
+      ? record.env
+      : typeof record.environment === 'string'
+        ? record.environment
+        : 'Unknown';
+
+  const numericCost =
+    typeof record.cost_usd === 'number'
+      ? record.cost_usd
+      : Number(record.cost_usd ?? 0);
+
+  return {
+    id:
+      typeof record.id === 'string' && record.id.trim()
+        ? record.id
+        : `${cloudProvider}-${service}-${dateValue}-${index}`,
+    date: dateValue,
+    cloud_provider: cloudProvider,
+    service,
+    team,
+    env: envSource.trim() || 'Unknown',
+    cost_usd: Number.isFinite(numericCost) ? numericCost : 0,
+  };
+}
+
+export function useSpendData(filters: Filters, refreshToken = 0) {
   const [spendData, setSpendData] = useState<SpendRecord[]>([]);
   const [summary, setSummary] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,6 +79,7 @@ export function useSpendData(filters: Filters) {
         if (filters.month && filters.month !== 'All') {
           params.append('month', filters.month);
         }
+        params.append('refresh', String(refreshToken));
 
         const queryString = params.toString();
         const spendUrl = `${API_BASE_URL}/spend${queryString ? `?${queryString}` : ''}`;
@@ -36,8 +87,8 @@ export function useSpendData(filters: Filters) {
 
         // Fetch both endpoints in parallel
         const [spendResponse, summaryResponse] = await Promise.all([
-          fetch(spendUrl),
-          fetch(summaryUrl),
+          fetch(spendUrl, { cache: 'no-store' }),
+          fetch(summaryUrl, { cache: 'no-store' }),
         ]);
 
         if (!spendResponse.ok || !summaryResponse.ok) {
@@ -47,7 +98,11 @@ export function useSpendData(filters: Filters) {
         const spendJson = await spendResponse.json();
         const summaryJson = await summaryResponse.json();
 
-        setSpendData(spendJson);
+        setSpendData(
+          Array.isArray(spendJson)
+            ? spendJson.map((record, index) => normalizeSpendRecord(record, index))
+            : [],
+        );
         setSummary(summaryJson);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -59,7 +114,7 @@ export function useSpendData(filters: Filters) {
     };
 
     fetchData();
-  }, [filters.cloud, filters.team, filters.environment, filters.month]);
+  }, [filters.cloud, filters.team, filters.environment, filters.month, refreshToken]);
 
   return { spendData, summary, loading, error };
 }

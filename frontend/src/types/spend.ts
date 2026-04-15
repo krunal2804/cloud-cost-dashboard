@@ -4,14 +4,14 @@ export interface SpendRecord {
   cloud_provider: string;
   service: string;
   team: string;
-  environment: string;
-  cost: number;
+  env: string;
+  cost_usd: number;
 }
 
 export interface SummaryData {
-  total_spend: number;
-  aws_spend: number;
-  gcp_spend: number;
+  total: string;
+  aws: string;
+  gcp: string;
 }
 
 export interface Filters {
@@ -19,4 +19,16 @@ export interface Filters {
   team?: string;
   environment?: string;
   month?: string;
+}
+
+export interface DataStatus {
+  records: number;
+  awsFile: string;
+  gcpFile: string;
+  awsDisplayName: string;
+  gcpDisplayName: string;
+  combinedFile: string;
+  updatedAt: string;
+  awsUpdatedAt: string;
+  gcpUpdatedAt: string;
 }

@@ -103,7 +103,7 @@ export function DetailModal({ record, onClose }: DetailModalProps) {
                 <span>Environment</span>
               </div>
               <span className="inline-flex px-3 py-1 rounded-full bg-gray-100 text-gray-700">
-                {record.environment}
+                {record.env}
               </span>
             </div>
           </div>
@@ -117,7 +117,7 @@ export function DetailModal({ record, onClose }: DetailModalProps) {
                 {record.cloud_provider} {record.service}
               </span>{' '}
               spend from the <span className="font-medium">{record.team}</span>{' '}
-              team in <span className="font-medium">{record.environment}</span>{' '}
+              team in <span className="font-medium">{record.env}</span>{' '}
               environment.
             </p>
           </div>
